@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gestión del negocio</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#b2476b">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Gestión">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{--bg:#faf7f5;--card:#fff;--tx:#2b2326;--mu:#7a6e72;--ac:#b2476b;--ac2:#f6e4ea;--bd:#e8dde1;--ok:#2e7d5b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1719;--card:#272022;--tx:#f1e9ec;--mu:#a99ca1;--ac:#e07a9c;--ac2:#3a2a31;--bd:#3a3034;--ok:#6fcf9f}}
+:root[data-theme="dark"]{--bg:#1c1719;--card:#272022;--tx:#f1e9ec;--mu:#a99ca1;--ac:#e07a9c;--ac2:#3a2a31;--bd:#3a3034;--ok:#6fcf9f}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;padding-left:220px;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+.w{max-width:960px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:26px;font-weight:700;margin:0 0 2px}.sub{color:var(--mu);margin:0 0 16px;font-size:13px}
+nav{position:fixed;left:0;top:0;bottom:0;width:220px;background:var(--card);border-right:1px solid var(--bd);display:flex;flex-direction:column;gap:4px;padding:calc(20px + env(safe-area-inset-top,0px)) 12px 20px;z-index:5}nav .br{font-weight:700;font-size:17px;padding:4px 12px 18px;color:var(--ac);cursor:pointer}nav .br input{font:inherit;color:var(--tx)}
+nav button{display:flex;align-items:center;gap:10px;border:0;background:none;color:var(--tx);padding:10px 12px;border-radius:10px;cursor:pointer;font:inherit;text-align:left;width:100%;transition:background .15s}nav button:hover{background:var(--ac2)}nav button span{width:22px;text-align:center}
+nav button.on{background:var(--ac);color:#fff;font-weight:600}
+@media (max-width:700px){nav{position:static;width:auto;flex-direction:row;flex-wrap:wrap;border-right:0;border-bottom:1px solid var(--bd);padding:12px}nav .br{width:100%;padding:0 4px 6px}nav button{width:auto}body{padding-left:0!important}}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.c h2{font-size:16px;margin:0 0 10px}
+.f{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+label{display:flex;flex-direction:column;font-size:12px;color:var(--mu);gap:3px}
+input,select{font:inherit;padding:7px 9px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);min-width:0}
+button.p{background:var(--ac);color:#fff;border:0;padding:9px 16px;border-radius:8px;cursor:pointer;font:inherit}
+button.x{background:none;border:0;color:var(--mu);cursor:pointer;font-size:16px}
+.t{overflow-x:auto}table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}
+th{font-size:11px;color:var(--mu);font-weight:600;text-transform:uppercase;letter-spacing:.04em}td.n,th.n{text-align:right}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.k{background:var(--ac2);border-radius:10px;padding:12px}.k b{display:block;font-size:20px}.k span{font-size:12px;color:var(--mu)}
+.hl b{color:var(--ac)}
+.note{font-size:12px;color:var(--mu);margin-top:8px}
+textarea{width:100%;height:110px;font:12px monospace;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:8px}
+.v{display:none}.v.on{display:block}
+@media (pointer:coarse){input,select{font-size:16px;padding:11px 12px}button.p{padding:13px 20px;font-size:16px}button.x{font-size:24px;padding:8px 14px}nav button{padding:13px 12px}td,th{padding:10px 8px}}
+.ov{position:fixed;inset:0;background:var(--bg);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}.ovb{max-width:420px;text-align:center}
+#st{cursor:pointer;margin:0 0 10px}
+</style>
+</head>
+<body>
+<div class="w">
+<h1>Gestión del negocio</h1>
+<p class="sub">Control interno de cobros, gastos y trimestres. No sustituye al programa de facturas homologado.</p>
+<p class="note" id="st" title="Pulsa para cambiar de carpeta"></p>
+<div class="ov" id="ov"></div>
+<nav id="nav"></nav>
+
+<div class="v" id="v-inicio"><div id="ini"></div></div>
+<div class="v" id="v-cobros">
+ <div class="c"><h2>Nuevo cobro</h2><div class="f">
+  <label>Fecha<input type="date" id="cf"></label>
+  <label>Hora<input type="time" id="ch"></label>
+  <label>Servicio<select id="cs"></select></label>
+  <label>Precio (IVA incl.)<input type="number" step="0.01" id="cp" style="width:110px"></label>
+  <label>Método<select id="cm"><option>Efectivo</option><option>Tarjeta</option><option>Bizum</option></select></label>
+  <label>Cliente (opcional)<input id="cn"></label>
+  <button class="p" id="ca">Añadir</button></div></div>
+ <div class="c"><h2>Últimos cobros</h2><div class="t" id="cl"></div></div>
+</div>
+
+<div class="v" id="v-gastos">
+ <div class="c"><h2>Nuevo gasto</h2><div class="f">
+  <label>Fecha<input type="date" id="gf"></label>
+  <label>Hora<input type="time" id="gh"></label>
+  <label>Concepto<input id="gc" placeholder="Tintes, alquiler..."></label>
+  <label>Total pagado<input type="number" step="0.01" id="gt" style="width:110px"></label>
+  <label>IVA<select id="gi"><option value="21">21 %</option><option value="10">10 %</option><option value="4">4 %</option><option value="0">0 % / sin IVA</option></select></label>
+  <button class="p" id="ga">Añadir</button></div>
+  <p class="note">La cuota de autónomos y otros gastos sin IVA, con IVA 0 %.</p></div>
+ <div class="c"><h2>Últimos gastos</h2><div class="t" id="gl"></div></div>
+</div>
+
+<div class="v" id="v-servicios">
+ <div class="c"><h2>Servicios y precios (IVA incluido)</h2><div class="f">
+  <label>Servicio<input id="sn"></label>
+  <label>Precio<input type="number" step="0.01" id="sp" style="width:110px"></label>
+  <button class="p" id="sa">Añadir</button></div></div>
+ <div class="c"><div class="t" id="sl"></div></div>
+</div>
+
+<div class="v" id="v-trim">
+ <div class="c"><div class="f">
+  <label>Año<input type="number" id="ty" style="width:90px"></label>
+  <label>Trimestre<select id="tq"><option value="1">1T (ene-mar)</option><option value="2">2T (abr-jun)</option><option value="3">3T (jul-sep)</option><option value="4">4T (oct-dic)</option></select></label></div></div>
+ <div id="tr"></div>
+ <p class="note">Cálculo orientativo: IVA al 21 % incluido en los precios; IRPF modelo 130 al 20 % del rendimiento acumulado del año menos lo ya calculado en trimestres anteriores. Revisa los datos con la gestoría antes de presentar los modelos 303 y 130.</p>
+</div>
+
+<div class="v" id="v-copia">
+ <div class="c"><h2>Copia de seguridad</h2>
+  <p class="note" style="margin-top:0">Los datos se guardan solo en este navegador y este equipo. Copia este texto y guárdalo en un archivo de vez en cuando.</p>
+  <textarea id="bk" readonly></textarea>
+  <p><button class="p" id="bc">Seleccionar todo</button></p>
+  <h2 style="margin-top:16px">Restaurar</h2>
+  <textarea id="bi" placeholder="Pega aquí una copia de seguridad"></textarea>
+  <p><button class="p" id="br">Restaurar datos</button></p></div>
+</div>
+</div>
+
+<script>
+var K="gestion_olaya_v1",S=null;
+try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
+if(!S||!S.servicios)S={servicios:[{id:1,n:"Corte de pelo",p:15},{id:2,n:"Tinte",p:40},{id:3,n:"Masaje relajante 30 min",p:30},{id:4,n:"Masaje relajante 60 min",p:50}],cobros:[],gastos:[]};
+function save(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}writeDir()}
+var $=function(i){return document.getElementById(i)};
+var eur=new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"});
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function uid(){return Date.now()+Math.random()}
+var today=new Date().toISOString().slice(0,10);
+var tabs=[["inicio","Inicio","🏠"],["cobros","Cobros","💶"],["gastos","Gastos","🧾"],["servicios","Servicios","✂️"],["trim","Trimestre","📊"],["copia","Copia","💾"]],cur="cobros";
+function showTab(t){cur=t;tabs.forEach(function(x){$("v-"+x[0]).classList.toggle("on",x[0]===t)});$("nav").innerHTML='<div class="br" id="brand" title="Pulsa para cambiar el nombre"></div>'+tabs.map(function(x){return '<button data-t="'+x[0]+'" class="'+(x[0]===t?"on":"")+'"><span>'+x[2]+'</span>'+x[1]+"</button>"}).join("");render()}
+$("nav").onclick=function(e){var b=e.target.closest("button");if(b&&b.dataset.t)showTab(b.dataset.t)};
+function rowDel(kind,id){return '<button class="x" data-k="'+kind+'" data-i="'+id+'" title="Borrar">✕</button>'}
+function table(h,rows){return rows.length?'<table><tr>'+h+'</tr>'+rows.join("")+'</table>':'<p class="note">Todavía no hay nada.</p>'}
+function render(){
+ $("cs").innerHTML=S.servicios.map(function(s){return '<option value="'+s.id+'">'+esc(s.n)+"</option>"}).join("");
+ fillPrice();
+ var cs=S.cobros.slice().sort(function(a,b){return (b.f+(b.h||"")).localeCompare(a.f+(a.h||""))}).slice(0,60);
+ $("cl").innerHTML=table('<th>Fecha</th><th>Hora</th><th>Servicio</th><th>Cliente</th><th>Método</th><th class="n">Importe</th><th></th>',cs.map(function(c){return "<tr><td>"+c.f+"</td><td>"+(c.h||"")+"</td><td>"+esc(c.s)+"</td><td>"+esc(c.c)+"</td><td>"+c.m+'</td><td class="n">'+eur.format(c.p)+"</td><td>"+rowDel("cobros",c.id)+"</td></tr>"}));
+ var gs=S.gastos.slice().sort(function(a,b){return (b.f+(b.h||"")).localeCompare(a.f+(a.h||""))}).slice(0,60);
+ $("gl").innerHTML=table('<th>Fecha</th><th>Hora</th><th>Concepto</th><th>IVA</th><th class="n">Total</th><th></th>',gs.map(function(g){return "<tr><td>"+g.f+"</td><td>"+(g.h||"")+"</td><td>"+esc(g.c)+"</td><td>"+g.i+' %</td><td class="n">'+eur.format(g.t)+"</td><td>"+rowDel("gastos",g.id)+"</td></tr>"}));
+ $("sl").innerHTML=table('<th>Servicio</th><th class="n">Precio</th><th></th>',S.servicios.map(function(s){return "<tr><td>"+esc(s.n)+'</td><td class="n"><input type="number" step="0.01" value="'+s.p+'" data-sp="'+s.id+'" style="width:90px;text-align:right"></td><td>'+rowDel("servicios",s.id)+"</td></tr>"}));
+ $("bk").value=JSON.stringify(S);brandSet();inicio();
+ trim();
+}
+function fillPrice(){var s=S.servicios.filter(function(x){return String(x.id)===$("cs").value})[0];$("cp").value=s?s.p:""}
+$("cs").onchange=fillPrice;
+$("ca").onclick=function(){var s=S.servicios.filter(function(x){return String(x.id)===$("cs").value})[0],p=parseFloat($("cp").value);if(!s||isNaN(p)||!$("cf").value)return;S.cobros.push({id:uid(),f:$("cf").value,h:$("ch").value,s:s.n,c:$("cn").value.trim(),m:$("cm").value,p:p});$("cn").value="";$("ch").value=new Date().toTimeString().slice(0,5);save();render()};
+$("ga").onclick=function(){var t=parseFloat($("gt").value),c=$("gc").value.trim();if(isNaN(t)||!c||!$("gf").value)return;S.gastos.push({id:uid(),f:$("gf").value,h:$("gh").value,c:c,t:t,i:parseFloat($("gi").value)});$("gc").value="";$("gt").value="";$("gh").value=new Date().toTimeString().slice(0,5);save();render()};
+$("sa").onclick=function(){var p=parseFloat($("sp").value),n=$("sn").value.trim();if(isNaN(p)||!n)return;S.servicios.push({id:uid(),n:n,p:p});$("sn").value="";$("sp").value="";save();render()};
+document.addEventListener("click",function(e){var k=e.target.dataset&&e.target.dataset.k;if(!k)return;var b=e.target;if(b.dataset.c!=="1"){b.dataset.c="1";b.textContent="¿Borrar?";b.style.color="var(--ac)";setTimeout(function(){b.dataset.c="";b.textContent="✕";b.style.color=""},3000);return}S[k]=S[k].filter(function(x){return String(x.id)!==e.target.dataset.i});save();render()});
+document.addEventListener("change",function(e){var i=e.target.dataset&&e.target.dataset.sp;if(!i)return;S.servicios.forEach(function(s){if(String(s.id)===i)s.p=parseFloat(e.target.value)||0});save();render()});
+$("bc").onclick=function(){$("bk").select()};
+$("br").onclick=function(){try{var d=JSON.parse($("bi").value);if(!d.servicios||!d.cobros||!d.gastos)throw 0;S=d;save();$("bi").value="";render()}catch(e){$("br").textContent="Copia no válida";setTimeout(function(){$("br").textContent="Restaurar datos"},2500)}};
+function q(f){return Math.floor((+f.slice(5,7)-1)/3)+1}
+function yr(f){return +f.slice(0,4)}
+function calc(y,t){
+ var ing=0,ivaR=0,gas=0,ivaS=0;
+ S.cobros.forEach(function(c){if(yr(c.f)===y&&q(c.f)===t){var b=c.p/1.21;ing+=b;ivaR+=c.p-b}});
+ S.gastos.forEach(function(g){if(yr(g.f)===y&&q(g.f)===t){var b=g.t/(1+g.i/100);gas+=b;ivaS+=g.t-b}});
+ return{ing:ing,ivaR:ivaR,gas:gas,ivaS:ivaS,tot:ing+ivaR,m:{}};
+}
+function trim(){
+ var y=+$("ty").value,t=+$("tq").value;if(!y)return;
+ var r=calc(y,t),acc=0,pagado=0,pago=0;
+ for(var i=1;i<=t;i++){var x=calc(y,i);acc+=x.ing-x.gas;var due=Math.max(0,0.2*acc);pago=Math.max(0,due-pagado);pagado+=pago}
+ var m={};S.cobros.forEach(function(c){if(yr(c.f)===y&&q(c.f)===t)m[c.m]=(m[c.m]||0)+c.p});
+ var k=function(l,v,h){return '<div class="k'+(h?" hl":"")+'"><span>'+l+"</span><b>"+eur.format(v)+"</b></div>"};
+ $("tr").innerHTML='<div class="c"><h2>Resumen '+t+"T "+y+'</h2><div class="g">'+k("Total cobrado (con IVA)",r.tot)+k("Ingresos sin IVA",r.ing)+k("Gastos sin IVA",r.gas)+k("Rendimiento del trimestre",r.ing-r.gas)+'</div></div><div class="c"><h2>Modelo 303 · IVA</h2><div class="g">'+k("IVA repercutido",r.ivaR)+k("IVA soportado",r.ivaS)+k("A ingresar (aprox.)",r.ivaR-r.ivaS,1)+'</div></div><div class="c"><h2>Modelo 130 · IRPF</h2><div class="g">'+k("Rendimiento acumulado del año",acc)+k("A ingresar (aprox.)",pago,1)+'</div></div><div class="c"><h2>Cobros por método</h2><div class="g">'+["Efectivo","Tarjeta","Bizum"].map(function(n){return k(n,m[n]||0)}).join("")+"</div></div>";
+}
+$("ty").oninput=trim;$("tq").onchange=trim;
+$("cf").value=today;$("gf").value=today;$("ch").value=$("gh").value=new Date().toTimeString().slice(0,5);$("ty").value=+today.slice(0,4);$("tq").value=q(today);
+showTab("inicio");
+var dirH=null,FN='datos-gestion.json';
+function stat(m,o){$('st').textContent=m;$('st').style.color=o?'var(--ok)':'var(--mu)'}
+function idb(){return new Promise(function(res,rej){var r=indexedDB.open('gestion_olaya_h',1);r.onupgradeneeded=function(){r.result.createObjectStore('h')};r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}})}
+function idbGet(){return idb().then(function(d){return new Promise(function(res,rej){var q=d.transaction('h').objectStore('h').get('dir');q.onsuccess=function(){res(q.result)};q.onerror=function(){rej(q.error)}})})}
+function idbSet(h){return idb().then(function(d){return new Promise(function(res,rej){var t=d.transaction('h','readwrite');t.objectStore('h').put(h,'dir');t.oncomplete=res;t.onerror=function(){rej(t.error)}})})}
+function writeDir(){if(!dirH)return;dirH.getFileHandle(FN,{create:true}).then(function(f){return f.createWritable()}).then(function(w){return w.write(JSON.stringify(S,null,1)).then(function(){return w.close()})}).then(function(){stat('Guardado en la carpeta «'+dirH.name+'» · pulsa aquí para cambiarla',1)}).catch(function(){stat('No se pudo guardar en la carpeta. Pulsa aquí para elegirla de nuevo.',0)})}
+function loadDir(h){dirH=h;return h.getFileHandle(FN).then(function(f){return f.getFile()}).then(function(f){return f.text()}).then(function(t){var d=JSON.parse(t);if(!d.servicios||!d.cobros||!d.gastos)throw new Error('formato');S=d;try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}}).catch(function(e){if(e&&e.name==='NotFoundError')return;dirH=null;throw e}).then(function(){$('ov').style.display='none';render();writeDir()})}
+function openOv(msg){
+ var ok=!!window.showDirectoryPicker;
+ idbGet().catch(function(){return null}).then(function(h){
+  var s='<div class="ovb"><h2>Carpeta de datos</h2><p>'+esc(msg||'Elige la carpeta del disco duro donde se guardarán los datos. Cada vez que abras la aplicación se cargarán desde ahí.')+'</p>';
+  if(ok&&h)s+='<p><button class="p" id="ou">Usar «'+esc(h.name)+'»</button></p>';
+  if(ok)s+='<p><button class="p" id="oc">Elegir carpeta</button></p>';
+  else s+='<p class="note">Este navegador no permite guardar en carpetas. Usa Chrome o Edge con el archivo HTML abierto desde el disco.</p>';
+  s+='<p><button class="x" id="on" style="font-size:13px;text-decoration:underline">Seguir sin carpeta (solo en este navegador)</button></p></div>';
+  $('ov').innerHTML=s;$('ov').style.display='flex';
+  if($('ou'))$('ou').onclick=function(){h.requestPermission({mode:'readwrite'}).then(function(p){if(p!=='granted')throw new Error('permiso');return loadDir(h)}).catch(function(){openOv('No se pudo abrir esa carpeta. Elige la carpeta otra vez.')})};
+  if($('oc'))$('oc').onclick=function(){window.showDirectoryPicker({mode:'readwrite'}).then(function(d){return idbSet(d).catch(function(){}).then(function(){return loadDir(d)})}).catch(function(e){if(e&&e.name==='AbortError')return;openOv('No se pudo usar la carpeta. Si ves esto en claude.ai, abre el archivo HTML guardado en tu PC con Chrome o Edge.')})};
+  $('on').onclick=function(){$('ov').style.display='none';stat('Sin carpeta: los datos solo están en este navegador.',0)};
+ })}
+$('st').onclick=function(){openOv()};
+function brandSet(){var b=$('brand'),n=S.nombre||'Mi negocio';document.title=n;if(b&&!b.querySelector('input'))b.textContent='💈 '+n}
+function editBrand(d){var i=document.createElement('input'),f=0;i.value=S.nombre||'Mi negocio';i.maxLength=30;i.style.width='100%';d.textContent='';d.appendChild(i);i.focus();i.select();function ok(c){if(f)return;f=1;if(c){S.nombre=i.value.trim()||'Mi negocio';save()}d.textContent='';brandSet()}i.onblur=function(){ok(1)};i.onkeydown=function(e){if(e.key==='Enter')ok(1);if(e.key==='Escape')ok(0)}}
+$('nav').addEventListener('click',function(e){var d=e.target.closest('#brand');if(d&&!d.querySelector('input'))editBrand(d)});
+function ld(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
+function inicio(){
+ var h=ld(),ym=h.slice(0,7),y=+h.slice(0,4),t=q(h),hc=0,hn=0,mc=0,mg=0,mb=0,mm={},dn=new Date();
+ S.cobros.forEach(function(c){if(c.f===h){hc+=c.p;hn++}if(c.f.slice(0,7)===ym){mc+=c.p;mb+=c.p/1.21;mm[c.m]=(mm[c.m]||0)+c.p}});
+ S.gastos.forEach(function(g){if(g.f.slice(0,7)===ym){mg+=g.t;mb-=g.t/(1+g.i/100)}});
+ var r=calc(y,t),acc=0,pagado=0,pago=0;
+ for(var i=1;i<=t;i++){var x=calc(y,i);acc+=x.ing-x.gas;pago=Math.max(0,Math.max(0,0.2*acc)-pagado);pagado+=pago}
+ var k=function(l,v,e){return '<div class="k'+(e?' hl':'')+'"><span>'+l+'</span><b>'+eur.format(v)+'</b></div>'};
+ var rec=S.cobros.slice().sort(function(a,b){return (b.f+(b.h||'')).localeCompare(a.f+(a.h||''))}).slice(0,5);
+ var fecha=dn.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),mes=dn.toLocaleDateString('es-ES',{month:'long',year:'numeric'});
+ $('ini').innerHTML='<div class="c"><div class="f" style="justify-content:space-between;align-items:center"><div><h2 style="margin:0;text-transform:capitalize">'+fecha+'</h2><span class="note">Resumen general del negocio</span></div><div class="f"><button class="p" data-go="cobros" style="font-size:16px;padding:12px 20px">+ Añadir cobro</button><button class="p" data-go="gastos" style="font-size:16px;padding:12px 20px">+ Añadir gasto</button></div></div></div>'
+ +'<div class="c"><h2>Hoy</h2><div class="g">'+k('Cobrado hoy',hc,1)+'<div class="k"><span>Servicios cobrados hoy</span><b>'+hn+'</b></div></div></div>'
+ +'<div class="c"><h2>Este mes ('+mes+')</h2><div class="g">'+k('Cobrado (IVA incl.)',mc)+k('Gastos (IVA incl.)',mg)+k('Resultado sin IVA',mb,1)+'</div><div class="g" style="margin-top:10px">'+['Efectivo','Tarjeta','Bizum'].map(function(n){return k(n,mm[n]||0)}).join('')+'</div></div>'
+ +'<div class="c"><h2>Trimestre actual: '+t+'T '+y+'</h2><div class="g">'+k('Cobrado en el trimestre',r.tot)+k('IVA a ingresar (303, aprox.)',r.ivaR-r.ivaS,1)+k('IRPF a ingresar (130, aprox.)',pago,1)+'</div><p class="note">Importes orientativos. Revisa el detalle en Trimestre.</p></div>'
+ +'<div class="c"><h2>Últimos cobros</h2><div class="t">'+table('<th>Fecha</th><th>Hora</th><th>Servicio</th><th>Método</th><th class="n">Importe</th>',rec.map(function(c){return '<tr><td>'+c.f+'</td><td>'+(c.h||'')+'</td><td>'+esc(c.s)+'</td><td>'+c.m+'</td><td class="n">'+eur.format(c.p)+'</td></tr>'}))+'</div></div>';
+}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(!b)return;showTab(b.dataset.go);var f=$(b.dataset.go==='cobros'?'cs':'gc');if(f)f.focus()});
+brandSet();
+if(window.showDirectoryPicker){openOv()}else{stat('Los datos se guardan en este dispositivo. Haz copias de seguridad desde la pestaña Copia.',0)}
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+try{if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(function(){})}catch(e){}
+</script>
+</body>
+</html>
